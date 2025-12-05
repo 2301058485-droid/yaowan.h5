@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>湘江之芯，红潮新韵 - 窑湾文旅品牌体验</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f5f2;
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 100%;
+            overflow: hidden;
+        }
+        
+        /* 开场动画区域 */
+        #opening-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #8b0000 0%, #b22222 30%, #d2691e 70%, #f4a460 100%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-out;
+        }
+        
+        .animation-content {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        
+        .brand-title {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+        
+        .brand-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .three-flavors {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .flavor-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .flavor-item:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        
+        .flavor-item:nth-child(3) {
+            animation-delay: 1s;
+        }
+        
+        .flavor-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .flavor-red {
+            background-color: rgba(178, 34, 34, 0.8);
+        }
+        
+        .flavor-ancient {
+            background-color: rgba(139, 69, 19, 0.8);
+        }
+        
+        .flavor-new {
+            background-color: rgba(30, 144, 255, 0.8);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* 主内容区域 */
+        #main-content {
+            display: none;
+            padding-top: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #8b0000, #b22222);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+            font-size: 1.5rem;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* 路线推荐器 */
+        #route-recommender {
+            padding: 25px 20px;
+            background-color: white;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #8b0000;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0e6dd;
+        }
+        
+        .question {
+            margin-bottom: 20px;
+        }
+        
+        .question-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 10px 15px;
+            background-color: #f8f5f2;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover, .option.selected {
+            background-color: #8b0000;
+            color: white;
+            border-color: #8b0000;
+        }
+        
+        .recommend-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #d2691e;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .recommend-btn:hover {
+            background-color: #b22222;
+        }
+        
+        /* 路线展示区 */
+        #route-display {
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+        
+        .route-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .route-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .route-header {
+            padding: 20px;
+            color: white;
+        }
+        
+        .route-red {
+            background: linear-gradient(to right, #8b0000, #b22222);
+        }
+        
+        .route-ancient {
+            background: linear-gradient(to right, #654321, #8b4513);
+        }
+        
+        .route-future {
+            background: linear-gradient(to right, #1e90ff, #4169e1);
+        }
+        
+        .route-title {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .route-desc {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        
+        .route-content {
+            padding: 20px;
+        }
+        
+        .feature-list {
+            list-style-type: none;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list i {
+            margin-right: 10px;
+            color: #d2691e;
+        }
+        
+        .feature-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #f8f5f2;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-btn:hover {
+            background-color: #8b0000;
+            color: white;
+            border-color: #8b0000;
+        }
+        
+        /* AR体验模拟区 */
+        #ar-experience {
+            padding: 25px 20px;
+            background-color: white;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+        
+        .ar-viewport {
+            width: 100%;
+            height: 300px;
+            background-color: #222;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .ar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://via.placeholder.com/400x300/333/666?text=现实场景');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .ar-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .ar-layer.active {
+            opacity: 0.8;
+        }
+        
+        .ar-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .ar-btn {
+            padding: 10px 20px;
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        /* 生成器区域 */
+        #generator {
+            padding: 25px 20px;
+            background-color: white;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+        
+        .newspaper-editor {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .newspaper-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #8b0000;
+            margin-bottom: 20px;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .quote-selector {
+            margin-bottom: 20px;
+        }
+        
+        .quote-item {
+            padding: 10px;
+            background-color: white;
+            border-left: 4px solid #d2691e;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quote-item:hover, .quote-item.selected {
+            background-color: #f0e6dd;
+        }
+        
+        .custom-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .preview-area {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 200px;
+            margin-bottom: 20px;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .generate-btn {
+            background-color: #d2691e;
+        }
+        
+        .share-btn {
+            background-color: #1e90ff;
+        }
+        
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 99;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item.active {
+            color: #8b0000;
+        }
+        
+        .nav-item i {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .brand-title {
+                font-size: 2rem;
+            }
+            
+            .brand-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .three-flavors {
+                gap: 15px;
+            }
+            
+            .flavor-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .brand-title {
+                font-size: 1.7rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .options {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 开场动画 -->
+        <div id="opening-animation">
+            <div class="animation-content">
+                <h1 class="brand-title">湘江之芯，红潮新韵</h1>
+                <p class="brand-subtitle">窑湾文旅品牌数字化体验</p>
+                
+                <div class="three-flavors">
+                    <div class="flavor-item">
+                        <div class="flavor-icon flavor-red">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <span>红色记忆</span>
+                    </div>
+                    <div class="flavor-item">
+                        <div class="flavor-icon flavor-ancient">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <span>千年商埠</span>
+                    </div>
+                    <div class="flavor-item">
+                        <div class="flavor-icon flavor-new">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <span>科技新生</span>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 50px; font-size: 0.9rem; opacity: 0.8;">正在加载体验内容...</p>
+            </div>
+        </div>
+        
+        <!-- 主内容区域 -->
+        <div id="main-content">
+            <!-- 顶部导航 -->
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>窑湾文旅体验</span>
+                </div>
+                <button class="menu-btn" id="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- 智能路线推荐器 -->
+            <div id="route-recommender">
+                <h2 class="section-title">智能路线推荐器</h2>
+                <p style="margin-bottom: 20px;">回答以下问题，为您推荐最适合的体验路线</p>
+                
+                <div class="question">
+                    <div class="question-title">1. 您对以下哪个主题最感兴趣？</div>
+                    <div class="options">
+                        <div class="option" data-question="1" data-value="red">红色文化与历史</div>
+                        <div class="option" data-question="1" data-value="ancient">古迹与传统文化</div>
+                        <div class="option" data-question="1" data-value="tech">科技与未来体验</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">2. 您计划在窑湾停留多长时间？</div>
+                    <div class="options">
+                        <div class="option" data-question="2" data-value="short">1-2小时</div>
+                        <div class="option" data-question="2" data-value="medium">半天时间</div>
+                        <div class="option" data-question="2" data-value="long">一整天</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">3. 您更喜欢哪种体验方式？</div>
+                    <div class="options">
+                        <div class="option" data-question="3" data-value="explore">自主探索发现</div>
+                        <div class="option" data-question="3" data-value="guided">跟随讲解引导</div>
+                        <div class="option" data-question="3" data-value="interact">深度互动参与</div>
+                    </div>
+                </div>
+                
+                <button class="recommend-btn" id="recommend-btn">生成我的推荐路线</button>
+            </div>
+            
+            <!-- 路线展示区 -->
+            <div id="route-display">
+                <!-- 红潮涌动路线 -->
+                <div class="route-card" id="route-red">
+                    <div class="route-header route-red">
+                        <h3 class="route-title">红潮涌动追寻线</h3>
+                        <p class="route-desc">追寻青年毛泽东的湘潭足迹与思想启蒙</p>
+                    </div>
+                    <div class="route-content">
+                        <p style="margin-bottom: 15px;">不止于参观，而是沉浸式追寻红色足迹，感受革命青年的理想与选择。</p>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-video"></i> <strong>数字序厅：</strong>虚拟时间轴展现近代湘潭风起云涌</li>
+                            <li><i class="fas fa-compass"></i> <strong>青春与选择叙事馆：</strong>沉浸式体验历史青年的十字路口</li>
+                            <li><i class="fas fa-map-signs"></i> <strong>红色电波联动：</strong>线上连接窑湾与市区红色景点</li>
+                            <li><i class="fas fa-newspaper"></i> <strong>我的《湘江评论》：</strong>生成个性化电子报刊并分享</li>
+                        </ul>
+                        
+                        <button class="feature-btn" data-feature="ar">体验AR时空叠加</button>
+                        <button class="feature-btn" data-feature="generator">创建我的《湘江评论》</button>
+                    </div>
+                </div>
+                
+                <!-- 古今交响路线 -->
+                <div class="route-card" id="route-ancient">
+                    <div class="route-header route-ancient">
+                        <h3 class="route-title">古今交响探秘线</h3>
+                        <p class="route-desc">穿越千年商埠，聆听历史回响</p>
+                    </div>
+                    <div class="route-content">
+                        <p style="margin-bottom: 15px;">从潭宝汽车站到望衡亭，从唐兴寺到摩崖石刻，系统活化千年商埠文脉。</p>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-camera"></i> <strong>AR时空叠加：</strong>通过摄像头查看历史场景复原</li>
+                            <li><i class="fas fa-headphones"></i> <strong>湘江往事有声剧：</strong>GPS触发位置对应历史故事</li>
+                            <li><i class="fas fa-map-marked"></i> <strong>数字寻宝地图：</strong>互动解锁隐藏历史碎片</li>
+                            <li><i class="fas fa-puzzle-piece"></i> <strong>文化拼图挑战：</strong>通过游戏了解文物背后的故事</li>
+                        </ul>
+                        
+                        <button class="feature-btn" data-feature="ar">体验AR时空叠加</button>
+                        <button class="feature-btn" data-feature="audio">试听湘江往事有声剧</button>
+                    </div>
+                </div>
+                
+                <!-- 未来已来路线 -->
+                <div class="route-card" id="route-future">
+                    <div class="route-header route-future">
+                        <h3 class="route-title">未来已来体验线</h3>
+                        <p class="route-desc">科技赋能文旅，创造无限可能</p>
+                    </div>
+                    <div class="route-content">
+                        <p style="margin-bottom: 15px;">运用数字技术实现历史场景"复活"，以当代审美重构文化叙事。</p>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-robot"></i> <strong>AI历史人物对话：</strong>与虚拟历史人物进行跨时空对话</li>
+                            <li><i class="fas fa-vr-cardboard"></i> <strong>VR全景漫游：</strong>360度沉浸式体验窑湾历史场景</li>
+                            <li><i class="fas fa-paint-brush"></i> <strong>数字文创工坊：</strong>设计专属数字文创产品</li>
+                            <li><i class="fas fa-share-alt"></i> <strong>社交化体验分享：</strong>一键生成体验报告并社交分享</li>
+                        </ul>
+                        
+                        <button class="feature-btn" data-feature="ar">体验AR时空叠加</button>
+                        <button class="feature-btn" data-feature="generator">设计数字文创</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AR体验模拟区 -->
+            <div id="ar-experience">
+                <h2 class="section-title">AR时空叠加体验</h2>
+                <p>将手机摄像头对准现实场景，查看历史图层叠加效果</p>
+                
+                <div class="ar-viewport">
+                    <div class="ar-overlay"></div>
+                    <div class="ar-layer" id="ar-layer-1" style="background-image: url('https://via.placeholder.com/400x300/8b0000/fff?text=1921年:毛泽东青年时代');"></div>
+                    <div class="ar-layer" id="ar-layer-2" style="background-image: url('https://via.placeholder.com/400x300/654321/fff?text=唐代:窑湾商埠繁荣时期');"></div>
+                    <div class="ar-layer" id="ar-layer-3" style="background-image: url('https://via.placeholder.com/400x300/1e90ff/fff?text=未来:智慧文旅场景');"></div>
+                </div>
+                
+                <div class="ar-controls">
+                    <button class="ar-btn" data-layer="1">红色历史图层</button>
+                    <button class="ar-btn" data-layer="2">古迹复原图层</button>
+                    <button class="ar-btn" data-layer="3">未来想象图层</button>
+                    <button class="ar-btn" id="reset-ar">重置视图</button>
+                </div>
+            </div>
+            
+            <!-- 生成器区域 -->
+            <div id="generator">
+                <h2 class="section-title">我的《湘江评论》生成器</h2>
+                <p>选择经典语录或输入自己的感悟，生成个性化电子报刊</p>
+                
+                <div class="newspaper-editor">
+                    <div class="newspaper-title">湘江评论</div>
+                    
+                    <div class="quote-selector">
+                        <p style="margin-bottom: 10px;">选择一句经典语录作为开头：</p>
+                        <div class="quote-item" data-quote="1">
+                            "天下者，我们的天下；国家者，我们的国家；社会者，我们的社会。我们不说，谁说？我们不干，谁干？"
+                        </div>
+                        <div class="quote-item" data-quote="2">
+                            "革命不是请客吃饭，不是做文章，不是绘画绣花，不能那样雅致，那样从容不迫，文质彬彬，那样温良恭俭让。"
+                        </div>
+                        <div class="quote-item" data-quote="3">
+                            "世界是你们的，也是我们的，但是归根结底是你们的。你们青年人朝气蓬勃，正在兴旺时期，好像早晨八九点钟的太阳。"
+                        </div>
+                    </div>
+                    
+                    <p style="margin-bottom: 10px;">写下您的感悟与评论：</p>
+                    <textarea class="custom-input" id="custom-text" placeholder="在此输入您的感悟..."></textarea>
+                    
+                    <p style="margin-bottom: 10px;">预览：</p>
+                    <div class="preview-area" id="newspaper-preview">
+                        <h3 style="color: #8b0000; margin-bottom: 10px;">湘江评论 · 个人特刊</h3>
+                        <p id="preview-quote" style="font-style: italic; margin-bottom: 15px; border-left: 3px solid #d2691e; padding-left: 10px;"></p>
+                        <p id="preview-text"></p>
+                        <p style="margin-top: 15px; text-align: right; font-size: 0.9rem;">—— 窑湾文旅体验者 · <span id="preview-date"></span></p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="action-btn generate-btn" id="generate-btn">生成电子报刊</button>
+                        <button class="action-btn share-btn" id="share-btn">分享到社交平台</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航 -->
+        <div class="bottom-nav">
+            <div class="nav-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>首页</span>
+            </div>
+            <div class="nav-item" data-page="routes">
+                <i class="fas fa-route"></i>
+                <span>路线</span>
+            </div>
+            <div class="nav-item" data-page="ar">
+                <i class="fas fa-camera"></i>
+                <span>AR体验</span>
+            </div>
+            <div class="nav-item" data-page="generator">
+                <i class="fas fa-newspaper"></i>
+                <span>报刊生成</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 开场动画控制
+        setTimeout(() => {
+            document.getElementById('opening-animation').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('opening-animation').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }, 1000);
+        }, 4000);
+        
+        // 路线推荐功能
+        const options = document.querySelectorAll('.option');
+        const recommendBtn = document.getElementById('recommend-btn');
+        let userSelections = {
+            1: null,
+            2: null,
+            3: null
+        };
+        
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const questionNum = parseInt(this.dataset.question);
+                const value = this.dataset.value;
+                
+                // 清除同一问题的其他选项选中状态
+                document.querySelectorAll(`.option[data-question="${questionNum}"]`).forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // 选中当前选项
+                this.classList.add('selected');
+                userSelections[questionNum] = value;
+                
+                // 如果所有问题都已选择，激活推荐按钮
+                if (userSelections[1] && userSelections[2] && userSelections[3]) {
+                    recommendBtn.disabled = false;
+                }
+            });
+        });
+        
+        // 推荐路线逻辑
+        recommendBtn.addEventListener('click', function() {
+            // 隐藏所有路线卡片
+            document.querySelectorAll('.route-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // 根据用户选择推荐路线
+            let recommendedRoute;
+            
+            if (userSelections[1] === 'red') {
+                recommendedRoute = 'route-red';
+            } else if (userSelections[1] === 'ancient') {
+                recommendedRoute = 'route-ancient';
+            } else {
+                recommendedRoute = 'route-future';
+            }
+            
+            // 显示推荐的路线
+            document.getElementById(recommendedRoute).classList.add('active');
+            
+            // 滚动到路线展示区域
+            document.getElementById('route-display').scrollIntoView({ behavior: 'smooth' });
+            
+            // 更新底部导航状态
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector('.nav-item[data-page="routes"]').classList.add('active');
+        });
+        
+        // 功能按钮点击事件
+        document.querySelectorAll('.feature-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const feature = this.dataset.feature;
+                
+                if (feature === 'ar') {
+                    // 显示AR体验区
+                    document.getElementById('ar-experience').style.display = 'block';
+                    document.getElementById('generator').style.display = 'none';
+                    
+                    // 滚动到AR体验区
+                    document.getElementById('ar-experience').scrollIntoView({ behavior: 'smooth' });
+                    
+                    // 更新底部导航状态
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    document.querySelector('.nav-item[data-page="ar"]').classList.add('active');
+                    
+                } else if (feature === 'generator') {
+                    // 显示生成器区域
+                    document.getElementById('generator').style.display = 'block';
+                    document.getElementById('ar-experience').style.display = 'none';
+                    
+                    // 滚动到生成器区域
+                    document.getElementById('generator').scrollIntoView({ behavior: 'smooth' });
+                    
+                    // 更新底部导航状态
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    document.querySelector('.nav-item[data-page="generator"]').classList.add('active');
+                }
+            });
+        });
+        
+        // AR体验控制
+        const arLayers = document.querySelectorAll('.ar-layer');
+        const arBtns = document.querySelectorAll('.ar-btn');
+        const resetArBtn = document.getElementById('reset-ar');
+        
+        arBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.id === 'reset-ar') {
+                    // 重置所有图层
+                    arLayers.forEach(layer => {
+                        layer.classList.remove('active');
+                    });
+                } else {
+                    const layerId = this.dataset.layer;
+                    
+                    // 隐藏所有图层
+                    arLayers.forEach(layer => {
+                        layer.classList.remove('active');
+                    });
+                    
+                    // 显示选中的图层
+                    document.getElementById(`ar-layer-${layerId}`).classList.add('active');
+                }
+            });
+        });
+        
+        // 报刊生成器功能
+        const quoteItems = document.querySelectorAll('.quote-item');
+        const customText = document.getElementById('custom-text');
+        const generateBtn = document.getElementById('generate-btn');
+        const shareBtn = document.getElementById('share-btn');
+        const previewQuote = document.getElementById('preview-quote');
+        const previewText = document.getElementById('preview-text');
+        const previewDate = document.getElementById('preview-date');
+        
+        // 设置当前日期
+        const today = new Date();
+        previewDate.textContent = `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`;
+        
+        // 语录选择
+        quoteItems.forEach(item => {
+            item.addEventListener('click', function() {
+                quoteItems.forEach(quote => {
+                    quote.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                
+                // 更新预览
+                previewQuote.textContent = this.textContent;
+            });
+        });
+        
+        // 默认选择第一个语录
+        if (quoteItems.length > 0) {
+            quoteItems[0].click();
+        }
+        
+        // 输入框内容实时更新预览
+        customText.addEventListener('input', function() {
+            previewText.textContent = this.value;
+        });
+        
+        // 生成报刊
+        generateBtn.addEventListener('click', function() {
+            if (!previewQuote.textContent || !previewText.textContent) {
+                alert('请选择一句语录并输入您的感悟！');
+                return;
+            }
+            
+            alert('电子报刊生成成功！已保存到您的设备中。');
+        });
+        
+        // 分享功能
+        shareBtn.addEventListener('click', function() {
+            if (!previewQuote.textContent || !previewText.textContent) {
+                alert('请先生成电子报刊再分享！');
+                return;
+            }
+            
+            alert('分享功能已触发！您可以将预览内容分享到微信、微博等社交平台。');
+            // 在实际应用中，这里会调用社交平台的分享API
+        });
+        
+        // 底部导航切换
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const page = this.dataset.page;
+                
+                // 更新导航状态
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // 根据页面显示对应内容
+                if (page === 'home') {
+                    // 滚动到顶部
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (page === 'routes') {
+                    // 显示路线推荐器
+                    document.getElementById('route-recommender').scrollIntoView({ behavior: 'smooth' });
+                } else if (page === 'ar') {
+                    // 显示AR体验
+                    document.getElementById('ar-experience').style.display = 'block';
+                    document.getElementById('generator').style.display = 'none';
+                    document.getElementById('ar-experience').scrollIntoView({ behavior: 'smooth' });
+                } else if (page === 'generator') {
+                    // 显示生成器
+                    document.getElementById('generator').style.display = 'block';
+                    document.getElementById('ar-experience').style.display = 'none';
+                    document.getElementById('generator').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // 菜单按钮功能
+        document.getElementById('menu-btn').addEventListener('click', function() {
+            alert('菜单功能：在实际应用中，这里会展开完整的导航菜单');
+        });
+    </script>
+</body>
+</html>
